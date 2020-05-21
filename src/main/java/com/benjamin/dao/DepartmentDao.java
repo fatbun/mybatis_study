@@ -14,5 +14,14 @@ public interface DepartmentDao {
 
     Department findById(Integer id);
 
+    /**
+     * 单纯查询departmetn数据
+     * 给Employee使用collection的select标签查询
+     *
+     * @param id
+     * @return
+     */
+    Department findByIdSelect(Integer id);
+
     List<Department> findAll();
 }

@@ -51,6 +51,12 @@
         LEFT JOIN t_employee e on d.id = e.department_id
         where d.id = #{id}
     </select>
+
+    <!--仅查询department数据-->
+    <select id="findByIdSelect" resultType="com.benjamin.bean.Department">
+        SELECT * from t_department WHERE id = #{id}
+    </select>
+
     <!--
     查询所有，返回集合resultType选择对象类型即可
     -->

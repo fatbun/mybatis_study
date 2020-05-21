@@ -25,18 +25,39 @@ public class MybatisEmployeeTest {
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     }
 
+
     @Test
     public void test01() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             EmployeeDao mapper = session.getMapper(EmployeeDao.class);
 
-            Employee e = mapper.findById(2);
-            System.out.println(e);
+            List<Employee> all = mapper.findAll();
+            System.out.println(all);
         }
     }
 
     @Test
     public void test02() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            EmployeeDao mapper = session.getMapper(EmployeeDao.class);
+
+            Employee e = mapper.findByIdJoin(2);
+            System.out.println(e);
+        }
+    }
+
+    @Test
+    public void test03() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            EmployeeDao mapper = session.getMapper(EmployeeDao.class);
+
+            Employee e = mapper.findByIdSelect(1);
+            System.out.println(e);
+        }
+    }
+
+    @Test
+    public void test04() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             EmployeeDao mapper = session.getMapper(EmployeeDao.class);
 
@@ -50,16 +71,6 @@ public class MybatisEmployeeTest {
             System.out.println(save);
 
             session.commit();
-        }
-    }
-
-    @Test
-    public void test03() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            EmployeeDao mapper = session.getMapper(EmployeeDao.class);
-
-            List<Employee> all = mapper.findAll();
-            System.out.println(all);
         }
     }
 }

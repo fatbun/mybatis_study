@@ -54,12 +54,30 @@
          STATEMENT：拼接，存在sql注入。对查询语句、传入参数
          PREPARED：预编译，不会sql注入。对查询语句进行预编译，语句带"？"
          CALLABLE：存储过程
+
+    方式1：
     -->
-    <select id="findById" resultMap="employee">
+    <select id="findByIdJoin" resultMap="employee">
         select * from t_employee e
         LEFT JOIN t_department d on e.department_id = d.id
         where e.id = #{id}
     </select>
+
+    <!--
+    方式2：使用association下的select标签
+    -->
+    <resultMap id="employeeSelect" type="com.benjamin.bean.Employee">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="identity" column="identity"/>
+        <association property="department" column="department_id" select="com.benjamin.dao.DepartmentDao.findByIdSelect"/>
+    </resultMap>
+    <select id="findByIdSelect" resultMap="employeeSelect">
+        select * from t_employee WHERE id = #{id}
+    </select>
+
+
     <!--
     查询所有，返回集合resultType选择对象类型即可
     -->

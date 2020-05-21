@@ -13,7 +13,9 @@ public interface EmployeeDao {
 
     Integer save(Employee department);
 
-    Employee findById(Integer id);
+    Employee findByIdJoin(Integer id);
+
+    Employee findByIdSelect(Integer id);
 
     List<Employee> findAll();
 }
