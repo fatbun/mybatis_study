@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--外部资源文件-->
+    <properties resource="datasource.properties">
+        <!--${}写法，支持默认参数：${username:root}-->
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/> <!-- 启用默认值特性 -->
+    </properties>
+
+    <settings>
+        <!--开启日志-->
+        <setting name="logImpl" value="LOG4J"/>
+        <!--开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!-- mybatis-config.xml -->
+    <typeHandlers>
+        <!--
+        枚举类型转换器
+        EnumOrdinalTypeHandler：存入数据库为ordinal，取出来用ordinal解析
+        -->
+        <!--<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.benjamin.enums.MarkType"/>-->
+    </typeHandlers>
+
+    <!--环境，default：开发环境-->
+    <environments default="development">
+        <environment id="development">
+            <!--事务管理器-->
+            <transactionManager type="JDBC"/>
+            <!--数据连接池-->
+            <dataSource type="POOLED">
+                <!--引用datasource.properties文件参数-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username:root}"/>
+                <property name="password" value="${password:root}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--映射xml文件-->
+    <mappers>
+        <!--
+        package方式：需要把映射xml文件（EmployeeDao.xml）放到与接口类（EmployeeDao）同一级目录下，
+                    并在maven pom文件中增加配置，把xml文件也一并打包
+        resource方式：直接关联具体的xml文件
+        -->
+        <!--<package name="com.benjamin.dao"/>-->
+        <mapper resource="mapper/EmployeeDao.xml"/>
+        <mapper resource="mapper/DepartmentDao.xml"/>
+    </mappers>
+</configuration>

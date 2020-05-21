@@ -1,0 +1,65 @@
+package com.benjamin.bean;
+
+/**
+ * Created by Ben Li.
+ * Date: 2020/5/21
+ */
+public class Employee {
+
+    private Integer id;
+    private String name;
+    private String phone;
+    private String identity;
+    private Department department;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", identity='" + identity + '\'' +
+                ", department=" + department +
+                '}';
+    }
+}

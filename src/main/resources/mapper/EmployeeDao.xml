@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射具体interface-->
+<mapper namespace="com.benjamin.dao.EmployeeDao">
+    <!--
+    select
+    id：接口下的方法名称
+    resultType：结果返回用对象类型
+    resultMap：结果返回用Map类型
+    flushCache：语句被调用，会清空缓存
+    useCache：语句被调用，会使用缓存，select元素默认true
+    timeout：数据库返回超出设定秒数，抛异常
+    statementType：
+         STATEMENT：拼接，存在sql注入。对查询语句、传入参数
+         PREPARED：预编译，不会sql注入。对查询语句进行预编译，语句带"？"
+         CALLABLE：存储过程
+    -->
+    <select id="findById" resultType="com.benjamin.bean.Employee">
+        select * from t_employee where id = #{id}
+    </select>
+    <!--
+    查询所有，返回集合resultType选择对象类型即可
+    -->
+    <select id="findAll" resultType="com.benjamin.bean.Employee">
+        select * from t_employee
+    </select>
+
+    <!--
+    insert, update, delete
+    id：接口下的方法名称
+    flushCache：语句被调用，会清空缓存
+    timeout：数据库返回超出设定秒数，抛异常
+    statementType：
+         STATEMENT：拼接，存在sql注入。对查询语句、传入参数
+         PREPARED：预编译，不会sql注入。对查询语句进行预编译，语句带"？"
+         CALLABLE：存储过程
+    useGeneratedKeys：使用数据库自增主键。MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键
+    keyProperty：数据库自增主键返回并赋值。一般与useGeneratedKeys同用，把自增主键值设置到返回对象属性中（如：id）
+
+    问题：#{}与${}的区别？
+    #{}：预编译方式
+    ${}：拼接方式
+    -->
+    <insert id="save">
+        insert into t_employee (id,name,phone,identity)
+        values (#{id},#{name},#{phone},#{identity})
+    </insert>
+
+</mapper>
