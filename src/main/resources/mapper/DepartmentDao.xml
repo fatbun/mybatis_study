@@ -4,6 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--映射具体interface-->
 <mapper namespace="com.benjamin.dao.DepartmentDao">
+
+    <!--
+    结果Map
+    collection：当前对象映射关联集合
+        property：对象字段名称
+        column：数据表字段名称
+        ofType：集合对象类型名称（Employee）
+        javaType：集合类型（ArrayList）
+
+        id：关联集合对象的主键id
+        result：非主键id
+    -->
+    <resultMap id="department" type="com.benjamin.bean.Department">
+        <id property="id" column="d_id"/>
+        <result property="dname" column="dname"/>
+        <collection property="employees" ofType="com.benjamin.bean.Employee">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phone" column="phone"/>
+            <result property="identity" column="identity"/>
+        </collection>
+    </resultMap>
+
     <!--
     select
     id：接口下的方法名称
@@ -16,9 +39,17 @@
          STATEMENT：拼接，存在sql注入。对查询语句、传入参数
          PREPARED：预编译，不会sql注入。对查询语句进行预编译，语句带"？"
          CALLABLE：存储过程
+
+    注意：
+        在关联查询时，主表与关联表主键名称均为id时，会导致出现一条结果的情况
     -->
-    <select id="findById" resultType="com.benjamin.bean.Department">
-        select * from t_department where id = #{id}
+    <select id="findById" resultMap="department">
+        select
+        d.id d_id,
+        d.dname,
+        e.* from t_department d
+        LEFT JOIN t_employee e on d.id = e.department_id
+        where d.id = #{id}
     </select>
     <!--
     查询所有，返回集合resultType选择对象类型即可

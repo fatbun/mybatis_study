@@ -30,7 +30,7 @@ public class MybatisEmployeeTest {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             EmployeeDao mapper = session.getMapper(EmployeeDao.class);
 
-            Employee e = mapper.findById(1);
+            Employee e = mapper.findById(2);
             System.out.println(e);
         }
     }
@@ -41,10 +41,10 @@ public class MybatisEmployeeTest {
             EmployeeDao mapper = session.getMapper(EmployeeDao.class);
 
             Employee e = new Employee();
-            e.setId(1);
-            e.setName("lb");
-            e.setPhone("13288888888");
-            e.setIdentity("440102xxxxx");
+            e.setId(2);
+            e.setName("zhagnsan");
+            e.setPhone("13299999999");
+            e.setIdentity("440101xxxxx");
 
             Integer save = mapper.save(e);
             System.out.println(save);

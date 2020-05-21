@@ -32,6 +32,16 @@ public class MybatisDepartmentTest {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             DepartmentDao mapper = session.getMapper(DepartmentDao.class);
 
+            Department d = mapper.findById(1);
+            System.out.println(d);
+        }
+    }
+
+    @Test
+    public void test02() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            DepartmentDao mapper = session.getMapper(DepartmentDao.class);
+
             Department e = new Department();
             e.setDname("客服部");
 

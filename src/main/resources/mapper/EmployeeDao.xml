@@ -4,6 +4,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--映射具体interface-->
 <mapper namespace="com.benjamin.dao.EmployeeDao">
+
+    <!--
+    结果集Map
+    id：结果标识
+    type：结果类型
+        id：主键
+        result：非主键其他元素
+        association：当前对象，关联外键一个对象
+        collection：当前对象，关联一个集合
+
+        constructor：构造方法赋值
+            idArg：同id主键
+            arg：同非id主键
+
+        property：对象字段映射名称
+        column：数据库字段名称
+    -->
+    <resultMap id="employee" type="com.benjamin.bean.Employee">
+
+        <!--使用构造方法赋值-->
+        <!--<constructor>-->
+            <!--<idArg column="id" javaType="int"/>-->
+            <!--<arg column="name" javaType="String"/>-->
+            <!--<arg column="phone" javaType="String"/>-->
+            <!--<arg column="identity" javaType="String"/>-->
+        <!--</constructor>-->
+
+        <!--普通set方法赋值-->
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="identity" column="identity"/>
+        <association property="department" javaType="com.benjamin.bean.Department">
+            <id property="id" column="id"/>
+            <result property="dname" column="dname"/>
+        </association>
+    </resultMap>
+
     <!--
     select
     id：接口下的方法名称
@@ -17,8 +55,10 @@
          PREPARED：预编译，不会sql注入。对查询语句进行预编译，语句带"？"
          CALLABLE：存储过程
     -->
-    <select id="findById" resultType="com.benjamin.bean.Employee">
-        select * from t_employee where id = #{id}
+    <select id="findById" resultMap="employee">
+        select * from t_employee e
+        LEFT JOIN t_department d on e.department_id = d.id
+        where e.id = #{id}
     </select>
     <!--
     查询所有，返回集合resultType选择对象类型即可
