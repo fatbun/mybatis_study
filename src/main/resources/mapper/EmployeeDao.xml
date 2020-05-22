@@ -25,10 +25,10 @@
 
         <!--使用构造方法赋值-->
         <!--<constructor>-->
-            <!--<idArg column="id" javaType="int"/>-->
-            <!--<arg column="name" javaType="String"/>-->
-            <!--<arg column="phone" javaType="String"/>-->
-            <!--<arg column="identity" javaType="String"/>-->
+        <!--<idArg column="id" javaType="int"/>-->
+        <!--<arg column="name" javaType="String"/>-->
+        <!--<arg column="phone" javaType="String"/>-->
+        <!--<arg column="identity" javaType="String"/>-->
         <!--</constructor>-->
 
         <!--普通set方法赋值-->
@@ -84,6 +84,105 @@
     <select id="findAll" resultType="com.benjamin.bean.Employee">
         select * from t_employee
     </select>
+
+    <!--
+    动态sql：
+        where标签：若and、or写在条件前面，则会自动去除多余的and、or；若and、or写在后面，不能自动识别去除
+        if标签：支持条件动态拼接sql
+    -->
+    <select id="findAllByIf" resultType="com.benjamin.bean.Employee">
+        SELECT * from t_employee
+        <where>
+            <if test="id !=null">
+                id = #{id}
+            </if>
+            <if test="name !=null">
+                and name = #{name}
+            </if>
+            <if test="identity != null">
+                and identity = #{identity}
+            </if>
+            <if test="phone !=null">
+                and phone = #{phone}
+            </if>
+            <if test="department !=null">
+                and department_id = #{department.id}
+            </if>
+        </where>
+    </select>
+
+    <!--
+    动态sql
+        下面组合同java的switch语法
+            choose标签
+            when标签
+            otherwise标签
+    -->
+    <select id="findAllByChoose" resultType="com.benjamin.bean.Employee">
+        SELECT * from t_employee
+        <where>
+            <choose>
+                <when test="id !=null">
+                    id = #{id}
+                </when>
+                <when test="name !=null">
+                    and name =#{name}
+                </when>
+                <otherwise>
+                    and phone =#{phone}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--
+    动态sql
+    trim标签：自定义截取多余的前缀/后缀
+        prefix：条件块头部，拼接前缀
+        suffix：条件块尾部，拼接后缀
+        prefixOverrides：若符号写在条件前面，截掉多余的指定符号，若多个符号用"|"分隔
+        subffixOverrides：若符号写在条件后面，截掉多余的指定符号，若多个符号用"|"分隔
+    -->
+    <select id="findAllByTrim" resultType="com.benjamin.bean.Employee">
+        SELECT * from t_employee
+        <trim prefix="where" prefixOverrides="and | or" suffix="" suffixOverrides="and | or">
+            <if test="id !=null ">
+                id = #{id} and
+            </if>
+            <if test="name !=null">
+                name = #{name} and
+            </if>
+            <if test="phone !=null">
+                phone = #{phone} and
+            </if>
+        </trim>
+
+    </select>
+
+    <!--
+    动态sql
+    foreach标签
+        collection：传入集合参数名称
+        close：后缀符号，一般填右括号 "）"
+        open：前缀符号，一般填左括号 "（"
+        index：当前迭代序号
+        item：当前迭代序号下的值
+    -->
+    <select id="findAllByIdForeach" resultType="com.benjamin.bean.Employee">
+        SELECT * from t_employee
+        WHERE id IN
+        <foreach collection="ids" close=")" index="index" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="findAllByNameForeach" resultType="com.benjamin.bean.Employee">
+        SELECT * from t_employee
+        WHERE name IN
+        <foreach collection="names" close=")" index="index" item="name" open="(" separator=",">
+            #{name}
+        </foreach>
+    </select>
+
 
     <!--
     insert, update, delete

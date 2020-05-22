@@ -1,3 +1,4 @@
+import com.benjamin.bean.Department;
 import com.benjamin.bean.Employee;
 import com.benjamin.dao.EmployeeDao;
 import org.apache.ibatis.io.Resources;
@@ -8,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,15 +64,49 @@ public class MybatisEmployeeTest {
             EmployeeDao mapper = session.getMapper(EmployeeDao.class);
 
             Employee e = new Employee();
-            e.setId(2);
-            e.setName("zhagnsan");
-            e.setPhone("13299999999");
-            e.setIdentity("440101xxxxx");
+            e.setId(3);
+            e.setName("wangwu");
+            e.setPhone("13200000000");
+            e.setIdentity("440100xxxxx");
 
             Integer save = mapper.save(e);
             System.out.println(save);
 
             session.commit();
+        }
+    }
+
+    @Test
+    public void test05() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            EmployeeDao mapper = session.getMapper(EmployeeDao.class);
+            Employee e = new Employee();
+            e.setId(1);
+            e.setName("lb");
+            e.setPhone("13288888888");
+            Department d = new Department();
+            d.setId(1);
+            e.setDepartment(d);
+
+            //            List<Employee> employees = mapper.findAllByIf(e);
+            //            List<Employee> employees = mapper.findAllByChoose(e);
+            List<Employee> employees = mapper.findAllByTrim(e);
+
+            System.out.println(employees);
+        }
+    }
+
+    @Test
+    public void test06() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            EmployeeDao mapper = session.getMapper(EmployeeDao.class);
+            List<Integer> ids = Arrays.asList(1,
+                    2);
+            List<Employee> employees = mapper.findAllByIdForeach(ids);
+//            List<String> names = Arrays.asList("lb",
+//                    "wangwu");
+//            List<Employee> employees = mapper.findAllByNameForeach(names);
+            System.out.println(employees);
         }
     }
 }
