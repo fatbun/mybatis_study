@@ -32,7 +32,10 @@ public class MybatisDepartmentTest {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             DepartmentDao mapper = session.getMapper(DepartmentDao.class);
 
-            Department d = mapper.findById(1);
+            List<Department> d = mapper.findAll();
+            System.out.println(d);
+
+            d = mapper.findAll();
             System.out.println(d);
         }
     }
@@ -53,6 +56,49 @@ public class MybatisDepartmentTest {
         }
     }
 
+
+    @Test
+    public void test03() {
+        SqlSession session1 = sqlSessionFactory.openSession();
+        SqlSession session2 = sqlSessionFactory.openSession();
+        DepartmentDao mapper1 = session1.getMapper(DepartmentDao.class);
+        DepartmentDao mapper2 = session2.getMapper(DepartmentDao.class);
+
+        List<Department> d = mapper1.findAll();
+        System.out.println(d);
+        session1.close();
+
+        d = mapper2.findAll();
+        System.out.println(d);
+    }
+
+    @Test
+    public void test04() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            DepartmentDao mapper = session.getMapper(DepartmentDao.class);
+
+            Department e = new Department();
+            e.setId(4);
+            e.setDname("客服部3");
+
+            Integer save = mapper.update(e);
+            System.out.println(e);
+
+            session.commit();
+        }
+    }
+
+    @Test
+    public void test05() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            DepartmentDao mapper = session.getMapper(DepartmentDao.class);
+
+            Integer delete = mapper.delete(4);
+            System.out.println(delete);
+
+            session.commit();
+        }
+    }
 
 
 }

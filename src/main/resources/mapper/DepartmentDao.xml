@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--映射具体interface-->
 <mapper namespace="com.benjamin.dao.DepartmentDao">
+    <!--开启二级缓存-->
+    <cache/>
 
     <!--
     结果Map
@@ -85,4 +87,23 @@
         values (#{dname})
     </insert>
 
+    <!--更新操作-->
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE t_department
+        <set>
+            last_updated = now()
+            <if test="dname!=null">
+                ,dname = #{dname}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!--删除操作-->
+    <delete id="delete">
+        DELETE FROM t_department
+        WHERE id =#{id}
+    </delete>
 </mapper>

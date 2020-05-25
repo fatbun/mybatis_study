@@ -24,4 +24,8 @@ public interface DepartmentDao {
     Department findByIdSelect(Integer id);
 
     List<Department> findAll();
+
+    Integer update(Department department);
+
+    Integer delete(Integer id);
 }

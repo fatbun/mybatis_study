@@ -1,10 +1,12 @@
 package com.benjamin.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Ben Li.
  * Date: 2020/5/21
  */
-public class Employee {
+public class Employee implements Serializable {
 
     private Integer id;
     private String name;

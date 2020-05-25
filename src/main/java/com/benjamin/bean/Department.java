@@ -1,12 +1,13 @@
 package com.benjamin.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Ben Li.
  * Date: 2020/5/21
  */
-public class Department {
+public class Department implements Serializable {
     private Integer id;
     private String dname;
 
